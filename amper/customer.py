@@ -2,6 +2,8 @@ from decimal import Decimal
 from typing import List, Optional
 from datetime import datetime
 
+from amper.product import PriceLevel
+
 
 class Account:
     def __init__(self):
@@ -131,3 +133,65 @@ class PaymentForm:
         self.name: str = None
         self.is_cash: bool = False
         self.default_payment_date_in_days: int = 14
+
+
+class CustomerForExport:
+    def __init__(self):
+        self.external_id: str = None
+        self.name: str = None
+        self.short_name: str = None
+        self.primary_email: str = None
+        self.phone: str = None
+        self.city: str = ''
+        self.postal_code: str = ''
+        self.street: str = ''
+        self.tax_id: str = None
+        self.comments: str = None
+        self.price_level_external_id: str = None
+        self.payment_form_external_id: str = None
+        self.login: str = None
+        self.password: str = None
+        self.trade_credit_limit: Decimal = 0.0
+        self.overdue_limit: Decimal = 0.0
+        self.discount: Decimal = 0.0
+        self.currency_code: str = None
+        self.id: int = 0
+        self.overdue_settlements: int = 0
+        self.currency_format: str = None
+        self.ftp_host: str = None
+        self.ftp_port: str = None
+        self.ftp_user: str = None
+        self.ftp_pass: str = None
+        self.ftp_secure: bool = False
+        self.type: str = None
+        self.added_at: datetime = datetime.now()
+        self.updated_at: Optional[datetime] = None
+        self.first_login_at: Optional[datetime] = None
+        self.is_free_shipping: bool = False
+        self.currency: str = None
+        self.updatable_fields: str = None
+        self.stock_location_external_id: str = None
+        self.concession_a_valid_until: Optional[datetime] = None
+        self.concession_b_valid_until: Optional[datetime] = None
+        self.concession_c_valid_until: Optional[datetime] = None
+        self.default_sales_rep_identifier: str = None
+        self.account: Optional[int] = None
+        self.default_price: PriceLevel = None
+        self.payment_form: PaymentForm = None
+        self.default_sales_rep: SalesRepresetnative = None
+        self.default_stock_location = None
+        self.default_address: Address = None
+
+
+class SalesRepresetnative:
+    def __init__(self):
+        self.id: int = 0
+        self.deleted = None
+        self.identifier: str = None
+        self.first_name: str = None
+        self.last_name: str = None
+        self.phone: str = None
+        self.email: str = None
+        self.status: str = None
+        self.keycloak_id: str = None
+        self.supervisor: str = None
