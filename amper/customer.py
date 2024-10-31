@@ -175,7 +175,7 @@ class CustomerForExport:
         self.concession_b_valid_until: Optional[datetime] = None
         self.concession_c_valid_until: Optional[datetime] = None
         self.default_sales_rep_identifier: str = None
-        self.account: Optional[int] = None
+        self.account: int = None
         self.default_price: PriceLevel = None
         self.payment_form: PaymentForm = None
         self.default_sales_rep: SalesRepresetnative = None
