@@ -2,7 +2,7 @@ from decimal import Decimal
 from typing import List, Optional
 from datetime import datetime
 
-from amper.product import PriceLevel
+from amper_api.product import PriceLevel
 
 
 class Account:

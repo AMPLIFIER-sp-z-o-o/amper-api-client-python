@@ -2,7 +2,7 @@ from decimal import Decimal
 from typing import List, Optional
 from datetime import datetime
 
-from amper.customer import Customer
+from amper_api.customer import Customer
 
 
 class Document:

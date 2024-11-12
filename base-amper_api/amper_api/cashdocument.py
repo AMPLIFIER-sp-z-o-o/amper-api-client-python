@@ -1,7 +1,7 @@
 from typing import List
 
-from amper.customer import Customer
-from amper.settlement import Settlement
+from amper_api.customer import Customer
+from amper_api.settlement import Settlement
 
 
 class CashDocumentOperation:
