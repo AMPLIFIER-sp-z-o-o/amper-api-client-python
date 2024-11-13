@@ -1,6 +1,11 @@
 from setuptools import setup, find_packages
+import sys
 
-VERSION = '0.1.5'
+
+v = sys.argv[3]
+sys.argv.pop()
+
+VERSION = '0.1.' + str(int(v)-1)
 DESCRIPTION = 'Amper API package'
 LONG_DESCRIPTION = 'Package for communicating with Amplifier API.'
 
