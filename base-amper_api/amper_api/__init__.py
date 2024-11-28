@@ -12,3 +12,4 @@ from amper_api import salesrepresentative
 from amper_api import schedulerentry
 from amper_api import settlement
 from amper_api import user
+from amper_api import complaint

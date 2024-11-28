@@ -17,6 +17,7 @@ class Promotion:
         self.updatable_fields: str = None
         self.external_identifier: str = None
         self.internal_description: str = None
+        self.replace_gratifications: str = None
 
 
 class PromotionCustomer:

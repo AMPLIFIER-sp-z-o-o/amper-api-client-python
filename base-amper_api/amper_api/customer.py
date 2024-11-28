@@ -195,3 +195,22 @@ class SalesRepresetnative:
         self.status: str = None
         self.keycloak_id: str = None
         self.supervisor: str = None
+
+
+class CustomerNote:
+    def __init__(self):
+        self.id: int = 0
+        self.author: str = None
+        self.customer: int = 0
+        self.body: str = None
+        self.note_type: CustomerNoteType = None
+        self.added_at: datetime = None
+        self.created_by: str = None
+
+
+class CustomerNoteType:
+    def __init__(self):
+        self.id: int = 0
+        self.type: str = None
+        self.value: str = None
+        self.order: int = 0
