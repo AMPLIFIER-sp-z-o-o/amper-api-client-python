@@ -160,24 +160,24 @@ class Backend:
             except AttributeError:
                 continue  # ignore keys not used in API
 
-            if key == "id":
-                pass
             if type(val) is list:
                 object_child: object_type = amper_object.FieldType(key)
                 object_child1 = []
                 if object_child is None:
                     setattr(amper_object, key, val)
+                    continue
                 else:
                     for cObj in val:
                         c = self.create_amper_object(object_child, cObj)
                         object_child1.append(c)
-                    pass
                     setattr(amper_object, key, object_child1)
+                    continue
             elif type(val) is dict:
                 try:
                     object_child: object_type = amper_object.FieldType(key)
                     c = self.create_amper_object(object_child, val)
                     setattr(amper_object, key, c)
+                    continue
                 except:
                     pass
             elif attr is None:
