@@ -4,42 +4,42 @@ from typing import List
 
 class ProductImage:
     def __init__(self):
-        self.product_id: int = None
-        self.alt: str = None
-        self.image: str = None
-        self.file_name: str = None
-        self.order: int = None
-        self.thumbnail_width: int = None
+        self.product_id: int = 0
+        self.alt: str = ""
+        self.image: str = ""
+        self.file_name: str = ""
+        self.order: int = 0
+        self.thumbnail_width: int = 0
 
 
 class Price:
     def __init__(self):
-        self.product_external_id: str = None
-        self.price_level_external_id: str = None
-        self.external_id: str = None
-        self.price: Decimal = 0.0
-        self.discount: Decimal = 0.0
-        self.start_date: str = None
-        self.end_date: str = None
-        self.order: int = None
+        self.product_external_id: str = ""
+        self.price_level_external_id: str = ""
+        self.external_id: str = ""
+        self.price: Decimal = Decimal(0)
+        self.discount: Decimal = Decimal(0)
+        self.start_date: str = ""
+        self.end_date: str = ""
+        self.order: int = 0
 
 
 class CategoryDiscount:
     def __init__(self):
-        self.category_external_id: str = None
-        self.price_level_external_id: str = None
-        self.external_id: str = None
-        self.discount: Decimal = 0.0
-        self.order: int = None
-        self.start_date: str = None
-        self.end_date: str = None
+        self.category_external_id: str = ""
+        self.price_level_external_id: str = ""
+        self.external_id: str = ""
+        self.discount: Decimal = Decimal(0)
+        self.order: int = 0
+        self.start_date: str = ""
+        self.end_date: str = ""
 
 
 class PriceLevel:
     def __init__(self):
-        self.name: str = None
-        self.external_id: str = None
-        self.order: int = None
+        self.name: str = ""
+        self.external_id: str = ""
+        self.order: int = 0
         self.is_global: bool = False
         self.is_enabled: bool = False
         self.is_promotional: bool = False
@@ -47,51 +47,51 @@ class PriceLevel:
 
 class PriceLevelAssigment:
     def __init__(self):
-        self.external_id: str = None
-        self.price_level: str = None
-        self.customer_category: str = None
-        self.customer: str = None
+        self.external_id: str = ""
+        self.price_level: str = ""
+        self.customer_category: str = ""
+        self.customer: str = ""
 
 
 class Stock:
     def __init__(self):
-        self.product_external_id: str = None
-        self.stock_level_external_id: str = None
-        self.external_id: str = None
-        self.quantity: Decimal = 0.0
-        self.quantity_allocated: Decimal = 0.0
+        self.product_external_id: str = ""
+        self.stock_level_external_id: str = ""
+        self.external_id: str = ""
+        self.quantity: Decimal = Decimal(0)
+        self.quantity_allocated: Decimal = Decimal(0)
 
 
 class StockLocation:
     def __init__(self):
-        self.name: str = None
-        self.external_id: str = None
+        self.name: str = ""
+        self.external_id: str = ""
 
 
 class ProductCategory:
     def __init__(self):
-        self.external_id: str = None
-        self.parent_external_id: str = None
-        self.name: str = None
+        self.external_id: str = ""
+        self.parent_external_id: str = ""
+        self.name: str = ""
         self.description: str = ''
-        self.seo_tags: str = None
+        self.seo_tags: str = ""
         self.order: int = 1
-        self.updatable_fields: str = None
+        self.updatable_fields: str = ""
 
 
 class ProductCategoryRelation:
     def __init__(self):
-        self.external_id: str = None
-        self.category_external_id: str = None
-        self.product_external_id: str = None
+        self.external_id: str = ""
+        self.category_external_id: str = ""
+        self.product_external_id: str = ""
 
 
 class CustomerProductRelation:
     def __init__(self):
-        self.external_id: str = None
-        self.product_external_id: str = None
-        self.category_external_id: str = None
-        self.customer_external_id: str = None
+        self.external_id: str = ""
+        self.product_external_id: str = ""
+        self.category_external_id: str = ""
+        self.customer_external_id: str = ""
         self.excluded: bool = False
 
 
@@ -110,110 +110,114 @@ class ProductAttributes:
 class Product:
     def __init__(self):
         self.attributes: List[ProductAttributes] = []
-        self.name: str = None
-        self.friendly_name: str = None
-        self.short_description: str = None
-        self.description: str = None
-        self.short_code: str = None
-        self.sku: str = None
-        self.ean: str = None
-        self.brand_short_code: str = None
+        self.name: str = ""
+        self.friendly_name: str = ""
+        self.short_description: str = ""
+        self.description: str = ""
+        self.short_code: str = ""
+        self.sku: str = ""
+        self.ean: str = ""
+        self.brand_short_code: str = ""
         self.vat: int = 0
         self.available_on: str = '2020-01-01'
         self.is_published: bool = False
         self.is_featured: bool = False
-        self.weight: Decimal = 0.0
-        self.default_unit_of_measure: str = None
-        self.external_id: str = None
-        self.updatable_fields: str = None
-        self.cumulative_unit_of_measure: str = None
-        self.cumulative_converter: Decimal = 0.0
+        self.weight: Decimal = Decimal()
+        self.default_unit_of_measure: str = ""
+        self.external_id: str = ""
+        self.updatable_fields: str = ""
+        self.cumulative_unit_of_measure: str = ""
+        self.cumulative_converter: Decimal = Decimal(0)
         self.can_be_split: bool = False
-        self.cumulative_unit_ratio_splitter: Decimal = 0.0
+        self.cumulative_unit_ratio_splitter: Decimal = Decimal(0)
         self.unit_roundup: bool = False
-        self.default_price: Decimal = 0.0
+        self.default_price: Decimal = Decimal()
         self.is_b2b_product: bool = False
         self.is_b2c_product: bool = False
         self.is_msf_product: bool = False
         self.is_b2m_product: bool = False
         self.is_msk_product: bool = False
-        self.dimension_unit_of_measure: str = None
-        self.dimension_width: Decimal = 0.0
-        self.dimension_height: Decimal = 0.0
-        self.dimension_depth: Decimal = 0.0
+        self.dimension_unit_of_measure: str = ""
+        self.dimension_width: Decimal = Decimal(0)
+        self.dimension_height: Decimal = Decimal(0)
+        self.dimension_depth: Decimal = Decimal(0)
         self.is_product_saleable: bool = False
-        self.piggy_bank_budget: Decimal = 0.0
-        self.concession_a: Decimal = 0
-        self.concession_b: Decimal = 0
-        self.concession_c: Decimal = 0
-        self.capacity: Decimal = 0.0
-        self.sorting_column: str = None
+        self.piggy_bank_budget: Decimal = Decimal(0)
+        self.concession_a: Decimal = Decimal(0)
+        self.concession_b: Decimal = Decimal(0)
+        self.concession_c: Decimal = Decimal(0)
+        self.capacity: Decimal = Decimal(0)
+        self.sorting_column: str = ""
         self.is_bestseller: bool = False
         self.is_for_sale: bool = False
-        self.status_description: str = None
-        self.minimal_price: Decimal = 0.0
+        self.status_description: str = ""
+        self.minimal_price: Decimal = Decimal(0)
         self.product_subtype: int = 0
-        self.sanitized_description: str = None
-        self.cn_code: str = None
+        self.sanitized_description: str = ""
+        self.cn_code: str = ""
         self.order: int = 0
 
 
 class RelatedProducts:
     def __init__(self):
-        self.external_id: str = None
-        self.related_products: RelatedProduct = None
+        self.external_id: str = ""
+        self.related_products: List[RelatedProduct] = []
+
+    def FieldType(self, field_name):
+        if field_name == "related_products":
+            return RelatedProduct
 
 
 class RelatedProduct:
     def __init__(self):
-        self.external_id: str = None
+        self.external_id: str = ""
 
 
 class UnitOfMeasure:
     def __init__(self):
-        self.product_external_id: str = None
-        self.external_id: str = None
-        self.name: str = None
-        self.converter: Decimal = 0.0
+        self.product_external_id: str = ""
+        self.external_id: str = ""
+        self.name: str = ""
+        self.converter: Decimal = Decimal(0)
         self.can_be_split: bool = False
-        self.cumulative_unit_ratio_splitter: Decimal = 0.0
+        self.cumulative_unit_ratio_splitter: Decimal = Decimal(0)
         self.unit_roundup: bool = False
-        self.weight: Decimal = 0.0
-        self.capacity: Decimal = 0.0
+        self.weight: Decimal = Decimal(0)
+        self.capacity: Decimal = Decimal(0)
 
 
 class DefaultPriceOverwriteForCategoryDiscount:
     def __init__(self):
-        self.external_id: str = None
-        self.price_level: str = None
-        self.category_discount: str = None
+        self.external_id: str = ""
+        self.price_level: str = ""
+        self.category_discount: str = ""
         self.order: int = 0
 
 
 class Manufacturer:
     def __init__(self):
-        self.external_id: str = None
-        self.name: str = None
-        self.slug: str = None
+        self.external_id: str = ""
+        self.name: str = ""
+        self.slug: str = ""
         self.order: int = 0
-        self.description: str = None
-        self.seo_tags: str = None
+        self.description: str = ""
+        self.seo_tags: str = ""
         self.is_hidden: bool = False
         self.is_featured: bool = False
-        self.short_code: str = None
-        self.updatable_fields: str = None
+        self.short_code: str = ""
+        self.updatable_fields: str = ""
 
 
 class Brand:
     def __init__(self):
-        self.external_id: str = None
-        self.manufacturer_external_id: str = None
-        self.name: str = None
-        self.slug: str = None
+        self.external_id: str = ""
+        self.manufacturer_external_id: str = ""
+        self.name: str = ""
+        self.slug: str = ""
         self.order: int = 0
-        self.description: str = None
-        self.seo_tags: str = None
+        self.description: str = ""
+        self.seo_tags: str = ""
         self.is_hidden: bool = False
         self.is_featured: bool = False
-        self.short_code: str = None
-        self.updatable_fields: str = None
+        self.short_code: str = ""
+        self.updatable_fields: str = ""

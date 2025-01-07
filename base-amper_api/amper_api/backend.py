@@ -1,13 +1,21 @@
+import decimal
+from decimal import Decimal
 from datetime import date, datetime
 import json
 import requests
 import time
+from typing import List
+
+from amper_api.order import Order, OrderLine
 
 
 class AmperJsonEncoder(json.JSONEncoder):
     def default(self, o):
         if isinstance(o, (datetime, date)):
             return o.isoformat()
+        if type(o) is Decimal:
+            return str(o)
+
         return o.__dict__
 
 
@@ -116,3 +124,79 @@ class Backend:
                 self.create_log_entry_async("INFO", f"Success while sending accounts records after {elapsed_time:.2f} ms.")
         except Exception as e:
             self.create_log_entry_async("ERROR", str(e), e)
+
+    def get_list_of_orders(self, payload):
+        orders: List[Order] = []
+        try:
+            self.create_log_entry_async("INFO", f"About to get list of orders for status {payload['status']}")
+            start_time = time.time()
+            response = requests.request(
+                "GET",
+                f'{self.amper_url}orders-translator/?status={payload["status"]}',
+                headers=self.get_authorization_header()
+            )
+            elapsed_time = (time.time() - start_time) * 1000  # Convert to milliseconds
+            if response.status_code not in [200, 201]:
+                self.create_log_entry_async("ERROR",
+                                            f"FAILURE while getting list of orders after {elapsed_time:.2f} ms; "
+                                            f"{response.text}")
+            else:
+                orders_object = json.loads(response.text)
+                for order_object in orders_object:
+                    order = self.create_amper_object(Order, order_object)
+                    orders.append(order)
+
+        except Exception as e:
+            self.create_log_entry_async("ERROR", str(e), e)
+        return orders
+
+    def create_amper_object(self, object_type, dictionary):
+        amper_object: object_type = object_type()
+        for key, val in dictionary.items():
+            attr_type = None
+            try:
+                attr = getattr(amper_object, key)
+                attr_type = type(attr)
+            except AttributeError:
+                continue  # ignore keys not used in API
+
+            if key == "id":
+                pass
+            if type(val) is list:
+                object_child: object_type = amper_object.FieldType(key)
+                object_child1 = []
+                if object_child is None:
+                    setattr(amper_object, key, val)
+                else:
+                    for cObj in val:
+                        c = self.create_amper_object(object_child, cObj)
+                        object_child1.append(c)
+                    pass
+                    setattr(amper_object, key, object_child1)
+            elif type(val) is dict:
+                try:
+                    object_child: object_type = amper_object.FieldType(key)
+                    c = self.create_amper_object(object_child, val)
+                    setattr(amper_object, key, c)
+                except:
+                    pass
+            elif attr is None:
+                attr_type = amper_object.FieldType(key)
+            if attr_type is Decimal:
+                if val is not None:
+                    setattr(amper_object, key, decimal.Decimal(val))
+            elif attr_type is int:
+                if val is not None:
+                    setattr(amper_object, key, int(val))
+            elif attr_type is bool:
+                if val is not None:
+                    setattr(amper_object, key, bool(val))
+            elif attr_type is datetime:
+                if val is not None:
+                    dt = val
+                    if ":" == dt[-3]:
+                        dt = dt[:-3] + dt[-2:]
+                    setattr(amper_object, key, datetime.strptime(dt, '%Y-%m-%dT%H:%M:%S.%f%z'))
+            else:
+                setattr(amper_object, key, val)
+        return amper_object

@@ -10,24 +10,33 @@ class Complaint:
         self.lines: List[ComplaintLine] = []
         self.attachments = []
         self.notes = []
-        self.nr: str = None
-        self.note: str = None
-        self.status: str = None
-        self.created_at: datetime = None
-        self.updated_at: datetime = None
-        self.updated_by: Optional[Customer] = None
-        self.created_by: Optional[Customer] = None
-        self.customer_external_id: str = None
-        self.customer: Optional[Customer] = None
+        self.nr: str = ""
+        self.note: str = ""
+        self.status: str = ""
+        self.created_at: datetime = datetime.min
+        self.updated_at: datetime = datetime.min
+        self.updated_by: Customer = None
+        self.created_by: Customer = None
+        self.customer_external_id: str = ""
+        self.customer: Customer = None
 
+    def FieldType(self, field_name):
+        if field_name == "lines":
+            return ComplaintLine
+        if field_name == "updated_by":
+            return Customer
+        if field_name == "created_by":
+            return Customer
+        if field_name == "customer":
+            return Customer
 
 class ComplaintLine:
     def __init__(self):
         self.id: int = 0
         self.product_id: int = 0
-        self.name: str = None
-        self.purchase_date: str = None
-        self.order: str = None
-        self.description: str = None
+        self.name: str = ""
+        self.purchase_date: str = ""
+        self.order: str = ""
+        self.description: str = ""
         self.complaint: int = 0
-        self.product_external_id: str = None
+        self.product_external_id: str = ""

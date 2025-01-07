@@ -7,5 +7,5 @@ class LogSeverity:
 
 class LogEntry:
     def __init__(self):
-        self.level: str = None
-        self.message: str = None
+        self.level: str = ""
+        self.message: str = ""
