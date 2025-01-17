@@ -5,6 +5,8 @@ import json
 import requests
 import time
 from typing import List
+import logging
+import logstash
 
 from amper_api.complaint import *
 from amper_api.order import *
@@ -26,12 +28,17 @@ class AmperJsonEncoder(json.JSONEncoder):
 
 
 class Backend:
-    def __init__(self, token, amper_url):
+    def __init__(self, token, amper_url, log_source="amper-translator"):
         self.token = token
         amper_url = amper_url if amper_url.endswith('/') else f'{amper_url}/'
         amper_url = amper_url if not amper_url.startswith('http://') else amper_url.replace('http://', 'https://')
         amper_url = amper_url if amper_url.startswith('https://') else f'https://{amper_url}'
         self.amper_url = amper_url
+
+        self.amper_logger = logging.getLogger('python-logstash-logger')
+        self.amper_logger.setLevel(logging.DEBUG)
+        self.amper_logger.addHandler(logstash.UDPLogstashHandler('51.83.242.93', 5000, version=1))
+        self.amper_logger_extra = {'translator.Source': log_source}
 
     def get_authorization_header(self):
         self.validate_jwt_token()
@@ -49,6 +56,14 @@ class Backend:
         pass
 
     def create_log_entry_async(self, severity, message, exception=None):
+        if severity == LogSeverity.Info:
+            self.amper_logger.info(message, exc_info=exception, extra=self.amper_logger_extra)
+        elif severity == LogSeverity.Error:
+            self.amper_logger.error(message, exc_info=exception, extra=self.amper_logger_extra)
+        elif severity == LogSeverity.Warning:
+            self.amper_logger.warning(message, exc_info=exception, extra=self.amper_logger_extra)
+        elif severity == LogSeverity.Debug:
+            self.amper_logger.debug(message, exc_info=exception, extra=self.amper_logger_extra)
         print(f'{severity}:{message}')
 
     def send_products(self, payload):
