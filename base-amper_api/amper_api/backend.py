@@ -405,7 +405,7 @@ class Backend:
             start_time = time.time()
             response = requests.request(
                 "GET",
-                f'{self.amper_url}/orders-translator/{0}/{payload}',
+                f'{self.amper_url}/orders-translator/{{0}}/{payload}',
                 headers=self.get_authorization_header(),
                 data=json.dumps(payload, cls=AmperJsonEncoder)
             )
@@ -427,7 +427,7 @@ class Backend:
             start_time = time.time()
             response = requests.request(
                 "PATCH",
-                f'{self.amper_url}/orders-translator/{0}/{payload}',
+                f'{self.amper_url}/orders-translator/{{0}}/{payload}',
                 headers=self.get_authorization_header(),
                 data=json.dumps(payload, cls=AmperJsonEncoder)
             )
@@ -471,7 +471,7 @@ class Backend:
             start_time = time.time()
             response = requests.request(
                 "PATCH",
-                f'{self.amper_url}/complaints-translator/{0}/{payload}',
+                f'{self.amper_url}/complaints-translator/{{0}}/{payload}',
                 headers=self.get_authorization_header(),
                 data=json.dumps(payload, cls=AmperJsonEncoder)
             )
@@ -625,7 +625,7 @@ class Backend:
             start_time = time.time()
             response = requests.request(
                 "GET",
-                f'{self.amper_url}/documents-translator/{0}/{payload}',
+                f'{self.amper_url}/documents-translator/{{0}}/{payload}',
                 headers=self.get_authorization_header(),
                 data=json.dumps(payload, cls=AmperJsonEncoder)
             )
@@ -648,7 +648,7 @@ class Backend:
             start_time = time.time()
             response = requests.request(
                 "PATCH",
-                f'{self.amper_url}/documents-translator/{0}/{payload["id"]}',
+                f'{self.amper_url}/documents-translator/{{0}}/{payload["id"]}',
                 headers=self.get_authorization_header(),
                 data=json.dumps(content, cls=AmperJsonEncoder)
             )
@@ -847,7 +847,7 @@ class Backend:
             start_time = time.time()
             response = requests.request(
                 "POST",
-                f'{self.amper_url}/documents-translator/{0}/{payload["category_id"]}',
+                f'{self.amper_url}/customer-categories-relation/',
                 headers=self.get_authorization_header(),
                 data=json.dumps(content, cls=AmperJsonEncoder)
             )
@@ -893,7 +893,7 @@ class Backend:
             start_time = time.time()
             response = requests.request(
                 "PATCH",
-                f'{self.amper_url}/cash-documents-translator/{0}/{payload["id"]}',
+                f'{self.amper_url}/cash-documents-translator/{{0}}/{payload["id"]}',
                 headers=self.get_authorization_header(),
                 data=json.dumps(content, cls=AmperJsonEncoder)
             )

@@ -10,7 +10,7 @@ class Complaint:
         self.lines: List[ComplaintLine] = []
         self.attachments = []
         self.notes = []
-        self.nr: str = ""
+        self.number: str = ""
         self.note: str = ""
         self.status: str = ""
         self.created_at: datetime = datetime.min

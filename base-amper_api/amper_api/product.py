@@ -33,6 +33,7 @@ class CategoryDiscount:
         self.order: int = 0
         self.start_date: str = ""
         self.end_date: str = ""
+        self.allow_override_minimal_price: bool = False
 
 
 class PriceLevel:
@@ -156,6 +157,8 @@ class Product:
         self.sanitized_description: str = ""
         self.cn_code: str = ""
         self.order: int = 0
+        self.purchase_price: Decimal = Decimal(0)
+        self.allow_override_minimal_price: bool = False
 
 
 class RelatedProducts:
