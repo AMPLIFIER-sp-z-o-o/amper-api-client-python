@@ -399,15 +399,43 @@ class Backend:
         except Exception as e:
             self.create_log_entry_async(LogSeverity.Error, str(e), e)
 
+    def send_file(self, payload):
+        try:
+            self.create_log_entry_async(LogSeverity.Info, f"About to send file {payload['fileName']}")
+            start_time = time.time()
+            multipart_form_data = {
+                'image': (payload['fileName'], open(payload['path'], 'rb')),
+                'order': (None, payload['order']),
+                'product_id': (None, '0'),
+                'alt': (None, payload['fileName']),
+                'product_external_id': (None, payload['product_external_id'])
+            }
+            response = requests.request(
+                "POST",
+                f'{self.amper_url}/product-images/',
+                files=multipart_form_data,
+                headers=self.get_authorization_header()
+            )
+            elapsed_time = (time.time() - start_time) * 1000  # Convert to milliseconds
+            if response.status_code not in [200, 201]:
+                self.create_log_entry_async(LogSeverity.Error,
+                                            f"FAILURE while getting order after {elapsed_time:.2f} ms; "
+                                            f"{response.text}")
+            else:
+                self.create_log_entry_async(LogSeverity.Info,
+                                            f"Success while getting order after {elapsed_time:.2f} ms.")
+
+        except Exception as e:
+            self.create_log_entry_async(LogSeverity.Error, str(e), e)
+
     def get_order(self, payload):
         try:
             self.create_log_entry_async(LogSeverity.Info, f"About to get order for token {payload}")
             start_time = time.time()
             response = requests.request(
                 "GET",
-                f'{self.amper_url}/orders-translator/{{0}}/{payload}',
-                headers=self.get_authorization_header(),
-                data=json.dumps(payload, cls=AmperJsonEncoder)
+                f'{self.amper_url}/orders-translator/{payload}/',
+                headers=self.get_authorization_header()
             )
             elapsed_time = (time.time() - start_time) * 1000  # Convert to milliseconds
             if response.status_code not in [200, 201]:
@@ -423,13 +451,14 @@ class Backend:
 
     def change_order_status(self, payload):
         try:
-            self.create_log_entry_async(LogSeverity.Info, f"About to change order status for token {payload}")
+            self.create_log_entry_async(LogSeverity.Info, f"About to change order status for token {payload['token']}")
             start_time = time.time()
+            content = {"status": payload["status"]}
             response = requests.request(
                 "PATCH",
-                f'{self.amper_url}/orders-translator/{{0}}/{payload}',
+                f'{self.amper_url}/orders-translator/{payload["token"]}/',
                 headers=self.get_authorization_header(),
-                data=json.dumps(payload, cls=AmperJsonEncoder)
+                data=json.dumps(content, cls=AmperJsonEncoder)
             )
             elapsed_time = (time.time() - start_time) * 1000  # Convert to milliseconds
             if response.status_code not in [200, 201]:
@@ -467,13 +496,14 @@ class Backend:
 
     def change_complaint_status(self, payload):
         try:
-            self.create_log_entry_async(LogSeverity.Info, f"About to change complaint status for token {payload}.")
+            self.create_log_entry_async(LogSeverity.Info, f"About to change complaint status for token {payload['token']}.")
             start_time = time.time()
+            content = {"status": payload["status"]}
             response = requests.request(
                 "PATCH",
-                f'{self.amper_url}/complaints-translator/{{0}}/{payload}',
+                f'{self.amper_url}/complaints-translator/{payload}/',
                 headers=self.get_authorization_header(),
-                data=json.dumps(payload, cls=AmperJsonEncoder)
+                data=json.dumps(content, cls=AmperJsonEncoder)
             )
             elapsed_time = (time.time() - start_time) * 1000  # Convert to milliseconds
             if response.status_code not in [200, 201]:
@@ -625,9 +655,8 @@ class Backend:
             start_time = time.time()
             response = requests.request(
                 "GET",
-                f'{self.amper_url}/documents-translator/{{0}}/{payload}',
-                headers=self.get_authorization_header(),
-                data=json.dumps(payload, cls=AmperJsonEncoder)
+                f'{self.amper_url}/documents-translator/{payload}/',
+                headers=self.get_authorization_header()
             )
             elapsed_time = (time.time() - start_time) * 1000  # Convert to milliseconds
             if response.status_code not in [200, 201]:
@@ -637,6 +666,8 @@ class Backend:
             else:
                 self.create_log_entry_async(LogSeverity.Info,
                                             f"Success while getting a document after {elapsed_time:.2f} ms.")
+                document = self.create_amper_object(Document, json.loads(response.text))
+                return document
 
         except Exception as e:
             self.create_log_entry_async(LogSeverity.Error, str(e), e)
@@ -648,7 +679,7 @@ class Backend:
             start_time = time.time()
             response = requests.request(
                 "PATCH",
-                f'{self.amper_url}/documents-translator/{{0}}/{payload["id"]}',
+                f'{self.amper_url}/documents-translator/{payload["id"]}/',
                 headers=self.get_authorization_header(),
                 data=json.dumps(content, cls=AmperJsonEncoder)
             )
@@ -893,7 +924,7 @@ class Backend:
             start_time = time.time()
             response = requests.request(
                 "PATCH",
-                f'{self.amper_url}/cash-documents-translator/{{0}}/{payload["id"]}',
+                f'{self.amper_url}/cash-documents-translator/{payload["id"]}/',
                 headers=self.get_authorization_header(),
                 data=json.dumps(content, cls=AmperJsonEncoder)
             )
