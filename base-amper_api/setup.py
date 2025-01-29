@@ -17,7 +17,7 @@ setup(
         description=DESCRIPTION,
         long_description=LONG_DESCRIPTION,
         packages=find_packages(),
-        install_requires=[],
+        install_requires=["python-logstash==0.4.8"],
 
         keywords=['amplifier', 'b2b', 'erp'],
         classifiers=[

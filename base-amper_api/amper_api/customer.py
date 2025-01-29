@@ -258,6 +258,7 @@ class CustomerNote:
         self.note_type: CustomerNoteType = None
         self.added_at: datetime = datetime.min
         self.created_by: str = ""
+        self.customer_external_id: str = ""
 
     def FieldType(self, field_name):
         if field_name == "note_type":
