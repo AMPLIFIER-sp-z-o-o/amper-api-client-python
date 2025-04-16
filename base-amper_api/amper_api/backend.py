@@ -294,6 +294,27 @@ class Backend:
         except Exception as e:
             self.create_log_entry_async(LogSeverity.Error, str(e), e)
 
+    def send_product_sets(self, payload):
+        try:
+            self.create_log_entry_async(LogSeverity.Info, f"About to send {len(payload)} product sets records.")
+            start_time = time.time()
+            response = requests.request(
+                "POST",
+                f'{self.amper_url}/api/product-sets-import',
+                headers=self.get_authorization_header(),
+                data=json.dumps(payload, cls=AmperJsonEncoder)
+            )
+            elapsed_time = (time.time() - start_time) * 1000  # Convert to milliseconds
+            if response.status_code not in [200, 201]:
+                self.create_log_entry_async(LogSeverity.Error,
+                                            f"FAILURE while sending product sets after {elapsed_time:.2f} ms; "
+                                            f"{response.text}")
+            else:
+                self.create_log_entry_async(LogSeverity.Info,
+                                            f"Success while sending product sets records after {elapsed_time:.2f} ms.")
+        except Exception as e:
+            self.create_log_entry_async(LogSeverity.Error, str(e), e)
+
     def send_documents(self, payload):
         try:
             self.create_log_entry_async(LogSeverity.Info, f"About to send {len(payload)} document records.")

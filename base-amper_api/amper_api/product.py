@@ -176,6 +176,21 @@ class RelatedProduct:
         self.external_id: str = ""
 
 
+class ProductSets:
+    def __init__(self):
+        self.external_id: str = ""
+        self.product_sets: List[ProductSet] = []
+
+    def FieldType(self, field_name):
+        if field_name == "product_sets":
+            return ProductSet
+
+
+class ProductSet:
+    def __init__(self):
+        self.external_id: str = ""
+
+
 class UnitOfMeasure:
     def __init__(self):
         self.product_external_id: str = ""
