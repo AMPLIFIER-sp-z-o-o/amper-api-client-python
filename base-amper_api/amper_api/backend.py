@@ -362,7 +362,7 @@ class Backend:
         except Exception as e:
             self.create_log_entry_async(LogSeverity.Error, str(e), e)
 
-    def send_settlements_documents(self, payload):
+    def send_settlements(self, payload):
         try:
             self.create_log_entry_async(LogSeverity.Info, f"About to send {len(payload)} settlement records.")
             start_time = time.time()
