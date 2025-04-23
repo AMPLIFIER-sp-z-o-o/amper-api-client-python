@@ -34,6 +34,7 @@ class OrderLine:
         self.product: int = 0
         self.promotion_condition: Optional[int] = None
         self.promotion: Promotion = None
+        self.source_stock_location_name: str = ""
 
     def FieldType(self, field_name):
         if field_name == "attributesList":
@@ -41,6 +42,8 @@ class OrderLine:
         if field_name == "promotion":
             return Promotion
         if field_name == "promotion_condition":
+            return int
+        if field_name == "id":
             return int
 
 class ShippingAddress:
